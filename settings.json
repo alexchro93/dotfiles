@@ -1,0 +1,22 @@
+{
+    // Misc. settings
+    "window.zoomLevel": -1,
+    "editor.codeLens": false,
+
+    // Remove minimap
+    "editor.minimap.enabled": false,
+
+    // Modify tab settings
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
+
+    // Add vertical/horizontal rulers
+    "editor.rulers": [
+        80, 120
+    ],
+    "python.linting.enabledWithoutWorkspace": false,
+    "cSpell.userWords": [
+        "SSVDP"
+    ]
+}
