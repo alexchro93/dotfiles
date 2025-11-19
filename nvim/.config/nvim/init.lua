@@ -63,7 +63,7 @@ local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
 -- NOTE: Here's where the plugins are installed
-require('lazy').setup({
+require('lazy').setup {
   spec = {
     -- add your plugins here
     -- att a mimum, should add 'opts = {}' to get plugin to load
@@ -73,21 +73,21 @@ require('lazy').setup({
 
     -- The main theme we use
     {
-      "catppuccin/nvim",
-      name = "catppuccin",
+      'catppuccin/nvim',
+      name = 'catppuccin',
       priority = 1000,
       config = function()
-        require("catppuccin").setup({
-          flacor = "mocha",
-        })
-        vim.cmd.colorscheme("catppuccin")
+        require('catppuccin').setup {
+          flacor = 'mocha',
+        }
+        vim.cmd.colorscheme 'catppuccin'
       end,
     },
 
     -- Indentation guids
     {
-      "lukas-reineke/indent-blankline.nvim",
-      main = "ibl",
+      'lukas-reineke/indent-blankline.nvim',
+      main = 'ibl',
       ---@module "ibl"
       ---@type ibl.config
       opts = {},
@@ -122,13 +122,13 @@ require('lazy').setup({
         --
         -- See :h blink-cmp-config-keymap for defining your own keymap
         keymap = {
-          preset = 'default'
+          preset = 'default',
         },
 
         appearance = {
           -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
           -- Adjusts spacing to ensure icons are aligned
-          nerd_font_variant = 'mono'
+          nerd_font_variant = 'mono',
         },
 
         -- (Default) Only show the documentation popup when manually triggered
@@ -145,9 +145,9 @@ require('lazy').setup({
         -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
         --
         -- See the fuzzy documentation for more information
-        fuzzy = { implementation = "prefer_rust_with_warning" }
+        fuzzy = { implementation = 'prefer_rust_with_warning' },
       },
-      opts_extend = { "sources.default" }
+      opts_extend = { 'sources.default' },
     },
 
     -- Helps with Lua Neovim config (eliminates 'undefined' type Vim)
@@ -183,7 +183,6 @@ require('lazy').setup({
       },
 
       config = function()
-
         -- Diagnostic Config
         -- See :help vim.diagnostic.Opts
         vim.diagnostic.config {
@@ -229,9 +228,7 @@ require('lazy').setup({
         --  - settings (table): Override the default settings passed when initializing the server.
         --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
         local servers = {
-          gopls = {
-
-          },
+          gopls = {},
           lua_ls = {
             -- cmd = { ... },
             -- filetypes = { ... },
@@ -283,12 +280,52 @@ require('lazy').setup({
         }
       end,
     },
+
+    -- Formatting
+    {
+      'stevearc/conform.nvim',
+      event = { 'BufWritePre' },
+      cmd = { 'ConformInfo' },
+      keys = {
+        {
+          '<leader>f',
+          function()
+            require('conform').format { async = true, lsp_format = 'fallback' }
+          end,
+          mode = '',
+          desc = '[F]ormat buffer',
+        },
+      },
+      -- This will provide type hinting with LuaLS
+      ---@module "conform"
+      ---@type conform.setupOpts
+      opts = {
+        -- Define your formatters
+        formatters_by_ft = {
+          lua = { 'stylua' },
+          go = { 'goimports', 'gofmt' },
+        },
+        default_format_opts = {
+          lsp_format = 'fallback',
+        },
+        format_on_save = { timeout_ms = 500 },
+        formatters = {
+          shfmt = {
+            append_args = { '-i', '2' },
+          },
+        },
+      },
+      init = function()
+        -- If you want the formatexpr, here is the place to set it
+        vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
+      end,
+    },
   },
 
   -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
-  install = { colorscheme = { "catppuccin", "habamax" } },
+  install = { colorscheme = { 'catppuccin', 'habamax' } },
 
   -- automatically check for plugin updates
   checker = { enabled = true },
-})
+}
