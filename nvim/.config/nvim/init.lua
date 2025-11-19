@@ -146,6 +146,9 @@ require('lazy').setup {
         --
         -- See the fuzzy documentation for more information
         fuzzy = { implementation = 'prefer_rust_with_warning' },
+
+        -- Enable signature help <c-k>
+        signature = { enabled = true },
       },
       opts_extend = { 'sources.default' },
     },
@@ -182,7 +185,14 @@ require('lazy').setup {
         'saghen/blink.cmp',
       },
 
-      config = function()
+      config = function(event)
+        local map = function(keys, func, desc, mode)
+          mode = mode or 'n'
+          vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+        end
+
+        map('K', vim.lsp.buf.hover, 'Hover')
+
         -- Diagnostic Config
         -- See :help vim.diagnostic.Opts
         vim.diagnostic.config {
