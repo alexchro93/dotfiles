@@ -31,6 +31,9 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- Get out of terminal mode
+vim.keymap.set('t', '<leader><Esc>', [[<C-\><C-n>]], { desc = 'Window command from terminal' })
+
 -- Easier way out of terminal insert mode
 vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], { desc = 'Window command from terminal' })
 vim.keymap.set('t', '<C-h>', [[<C-\><C-n><C-w>h]], { desc = 'Go left window' })
