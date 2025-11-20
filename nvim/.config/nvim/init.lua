@@ -31,6 +31,12 @@ vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 --  See `:help hlsearch`
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
+-- Easier way out of terminal insert mode
+vim.keymap.set('t', '<C-w>', [[<C-\><C-n><C-w>]], { desc = 'Window command from terminal' })
+vim.keymap.set('t', '<C-h>', [[<C-\><C-n><C-w>h]], { desc = 'Go left window' })
+vim.keymap.set('t', '<C-j>', [[<C-\><C-n><C-w>j]], { desc = 'Go down window' })
+vim.keymap.set('t', '<C-k>', [[<C-\><C-n><C-w>k]], { desc = 'Go up window' })
+
 --  See `:help wincmd` for a list of all window commands
 vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
@@ -329,6 +335,40 @@ require('lazy').setup {
         -- If you want the formatexpr, here is the place to set it
         vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
       end,
+    },
+
+    -- Utility plugins
+    {
+      'folke/snacks.nvim',
+      priority = 1000,
+      lazy = false,
+      dependencies = {
+        { 'nvim-mini/mini.icons', opts = {} },
+        { 'nvim-tree/nvim-web-devicons', opts = {} },
+      },
+      ---@type snacks.Config
+      opts = {
+        explorer = { enabled = true },
+        picker = { enabled = true },
+        quickfile = { enabled = true },
+        terminal = { enabled = true },
+      },
+
+      keys = {
+        -- stylua: ignore start
+        -- Top Pickers & Explorer
+        { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
+        { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
+        { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
+        { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
+        { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
+        { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
+
+        -- Other
+        { "<c-/>", function() Snacks.terminal() end, desc = "Toggle Terminal" },
+        { "<c-_>",      function() Snacks.terminal() end, desc = "which_key_ignore" },
+        -- stylua: ignore end
+      },
     },
   },
 
