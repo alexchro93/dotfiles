@@ -73,6 +73,7 @@ rtp:prepend(lazypath)
 
 -- NOTE: Here's where the plugins are installed
 require('lazy').setup {
+  import = 'plugins',
   spec = {
     -- add your plugins here
     -- att a mimum, should add 'opts = {}' to get plugin to load
@@ -172,6 +173,7 @@ require('lazy').setup {
         library = {
           -- Load luvit types when the `vim.uv` word is found
           { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+          { path = 'snacks.nvim', words = { 'Snacks' } },
         },
       },
     },
@@ -354,6 +356,7 @@ require('lazy').setup {
       ---@type snacks.Config
       opts = {
         explorer = { enabled = true },
+        dashboard = { enabled = true },
         picker = { enabled = true },
         quickfile = { enabled = true },
         terminal = { enabled = true },
