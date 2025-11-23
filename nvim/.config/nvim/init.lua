@@ -73,10 +73,12 @@ rtp:prepend(lazypath)
 
 -- NOTE: Here's where the plugins are installed
 require('lazy').setup {
-  import = 'plugins',
   spec = {
     -- add your plugins here
     -- att a mimum, should add 'opts = {}' to get plugin to load
+
+    -- Import plugins from ./lua/plugins
+    { import = 'plugins' },
 
     -- Supposed to detect tabstop automatically
     { 'NMAC427/guess-indent.nvim', opts = {} },
