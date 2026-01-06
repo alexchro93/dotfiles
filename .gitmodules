@@ -1,0 +1,4 @@
+[submodule "nvim/.config/nvim-lazy"]
+	path = nvim/.config/nvim-lazy
+	url = git@github.com:alexchro93/lazyvim-starter.git
+	branch = chrostow/custom
