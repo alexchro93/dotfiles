@@ -3,6 +3,21 @@ case "$TERM" in
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
+git_prompt=
+if command -v git >/dev/null 2>&1; then
+    for git_prompt_script in /usr/lib/git-core/git-sh-prompt /etc/bash_completion.d/git-prompt; do
+        if [ -f "$git_prompt_script" ]; then
+            . "$git_prompt_script"
+            break
+        fi
+    done
+
+    if command -v __git_ps1 >/dev/null 2>&1; then
+        git_prompt='$(__git_ps1 " (%s)")'
+    fi
+fi
+unset git_prompt_script
+
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
@@ -20,8 +35,8 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]'$git_prompt'\n\$ '
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\n\$ '
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w'$git_prompt'\n\$ '
 fi
-unset color_prompt force_color_prompt
+unset color_prompt force_color_prompt git_prompt
