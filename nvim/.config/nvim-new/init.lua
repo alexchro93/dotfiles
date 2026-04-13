@@ -114,14 +114,26 @@ vim.pack.add({
 vim.cmd.colorscheme("catppuccin-mocha")
 
 -- Configure which-key to use the helix preset (compact, bottom-right)
-require("which-key").setup({
+local wk = require("which-key")
+wk.setup({
   preset = "helix",
+})
+
+-- Register group labels for leader key prefixes
+wk.add({
+  { "<leader>c", group = "Code" },
+  { "<leader>f", group = "Find" },
+  { "<leader>g", group = "Git" },
+  { "<leader>s", group = "Search" },
+  { "<leader>u", group = "UI" },
+  { "<leader>x", group = "Diagnostics" },
 })
 
 -- Configure snacks.nvim picker and file explorer
 require("snacks").setup({
   explorer = { enabled = true },
   picker = { enabled = true },
+  scroll = { enabled = true },
 })
 
 -- Set up mason for managing LSP server installations
