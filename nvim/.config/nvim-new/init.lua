@@ -213,6 +213,32 @@ vim.lsp.config("gopls", {
 -- Enable the Go language server
 vim.lsp.enable("gopls")
 
+-- Enable code lenses using the Neovim 0.12 built-in support
+vim.lsp.codelens.enable(true)
+
+local go_augroup = vim.api.nvim_create_augroup("dotfiles-go", { clear = true })
+
+-- Add Go-specific keybindings when editing Go files
+vim.api.nvim_create_autocmd("FileType", {
+  group = go_augroup,
+  pattern = "go",
+  callback = function(args)
+    local opts = { buffer = args.buf, silent = true }
+
+    vim.keymap.set("n", "<leader>ga", "<cmd>GoAlt<cr>", vim.tbl_extend("force", opts, { desc = "Go alternate file" }))
+    vim.keymap.set("n", "<leader>gb", "<cmd>GoBuild<cr>", vim.tbl_extend("force", opts, { desc = "Go build" }))
+    vim.keymap.set("n", "<leader>ge", "<cmd>GoIfErr<cr>", vim.tbl_extend("force", opts, { desc = "Go add if err" }))
+    vim.keymap.set("n", "<leader>gr", "<cmd>GoRun<cr>", vim.tbl_extend("force", opts, { desc = "Go run" }))
+    vim.keymap.set("n", "<leader>gt", "<cmd>GoTest<cr>", vim.tbl_extend("force", opts, { desc = "Go test package" }))
+    vim.keymap.set(
+      "n",
+      "<leader>gT",
+      "<cmd>GoTestFunc<cr>",
+      vim.tbl_extend("force", opts, { desc = "Go test function" })
+    )
+  end,
+})
+
 -- Configure conform.nvim to format files on save
 require("conform").setup({
   formatters_by_ft = {
@@ -404,29 +430,6 @@ require("lualine").setup({
     lualine_y = { "progress" },
     lualine_z = { "location" },
   },
-})
-
-local go_augroup = vim.api.nvim_create_augroup("dotfiles-go", { clear = true })
-
--- Add Go-specific keybindings when editing Go files
-vim.api.nvim_create_autocmd("FileType", {
-  group = go_augroup,
-  pattern = "go",
-  callback = function(args)
-    local opts = { buffer = args.buf, silent = true }
-
-    vim.keymap.set("n", "<leader>ga", "<cmd>GoAlt<cr>", vim.tbl_extend("force", opts, { desc = "Go alternate file" }))
-    vim.keymap.set("n", "<leader>gb", "<cmd>GoBuild<cr>", vim.tbl_extend("force", opts, { desc = "Go build" }))
-    vim.keymap.set("n", "<leader>ge", "<cmd>GoIfErr<cr>", vim.tbl_extend("force", opts, { desc = "Go add if err" }))
-    vim.keymap.set("n", "<leader>gr", "<cmd>GoRun<cr>", vim.tbl_extend("force", opts, { desc = "Go run" }))
-    vim.keymap.set("n", "<leader>gt", "<cmd>GoTest<cr>", vim.tbl_extend("force", opts, { desc = "Go test package" }))
-    vim.keymap.set(
-      "n",
-      "<leader>gT",
-      "<cmd>GoTestFunc<cr>",
-      vim.tbl_extend("force", opts, { desc = "Go test function" })
-    )
-  end,
 })
 
 -- Enable gopls inlay hints for Go buffers when the LSP attaches
