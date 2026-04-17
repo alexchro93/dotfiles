@@ -130,9 +130,22 @@ wk.add({
 })
 
 -- Configure snacks.nvim picker and file explorer
+local lsp_symbols_filter = vim.deepcopy(require("snacks.picker.config.sources").lsp_symbols.filter)
+vim.list_extend(lsp_symbols_filter.default, { "Constant" })
+
 require("snacks").setup({
   explorer = { enabled = true },
-  picker = { enabled = true },
+  picker = {
+    enabled = true,
+    sources = {
+      lsp_references = {
+        auto_confirm = false,
+      },
+      lsp_symbols = {
+        filter = lsp_symbols_filter,
+      },
+    },
+  },
   scroll = { enabled = true },
 })
 
@@ -264,6 +277,30 @@ require("trouble").setup({
   modes = {
     lsp = {
       win = { position = "right" },
+    },
+    symbols = {
+      filter = {
+        ["not"] = { ft = "lua", kind = "Package" },
+        any = {
+          ft = { "help", "markdown" },
+          kind = {
+            "Class",
+            "Constructor",
+            "Constant",
+            "Enum",
+            "Field",
+            "Function",
+            "Interface",
+            "Method",
+            "Module",
+            "Namespace",
+            "Package",
+            "Property",
+            "Struct",
+            "Trait",
+          },
+        },
+      },
     },
   },
 })
